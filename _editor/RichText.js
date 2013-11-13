@@ -549,15 +549,6 @@ define([
 			// expand/contract the editor as the content changes.
 			var html = "<div id='dijitEditorBody'></div>";
 
-			/*
-			if(has("mozilla")){
-				// workaround bug where can't select then delete text (until user types something
-				// into the editor)... and/or issue where typing doesn't erase selected text
-				this._cursorToStart = true;
-				html = "&#160;";	// &nbsp;
-			}
-			*/
-
 			var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
 
 			// line height is tricky - applying a units value will mess things up.
