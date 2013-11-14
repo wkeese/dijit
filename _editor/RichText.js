@@ -1573,9 +1573,6 @@ define([
 			}else if(this.window && this.window.getSelection){ // Moz
 				html = this._preFilterContent(html);
 				this.execCommand("selectall");
-				if(!html){
-					html = "&#160;";	// &nbsp;
-				}
 				this.execCommand("inserthtml", html);
 				this._preDomFilterContent(this.editNode);
 			}else if(this.document && this.document.selection){//IE
