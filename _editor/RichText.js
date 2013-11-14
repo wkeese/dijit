@@ -1544,9 +1544,6 @@ define([
 			}else{
 				html = this._preFilterContent(html);
 				var node = this.isClosed ? this.domNode : this.editNode;
-				if(html && has("mozilla") && html.toLowerCase() === "<p></p>"){
-					html = "<p>&#160;</p>";	// &nbsp;
-				}
 
 				// Use &nbsp; to avoid webkit problems where editor is disabled until the user clicks it
 				if(!html && has("webkit")){
