@@ -81,6 +81,9 @@ define([
 				return;
 			}
 
+			aroundNode.setAttribute("aria-describedby", this.containerNode.id);
+			require("dijit/focus").curNode.setAttribute("aria-describedby", this.containerNode.id);
+
 			if(this.fadeOut.status() == "playing"){
 				// previous tooltip is being hidden; wait until the hide completes then show new one
 				this._onDeck=arguments;
