@@ -10,6 +10,7 @@ define([
 	// module:
 	//		dijit/form/NumberTextBox
 
+	var ninePaddingCache = {};
 
 	var NumberTextBoxMixin = declare("dijit.form.NumberTextBoxMixin", null, {
 		// summary:
@@ -84,6 +85,11 @@ define([
 		postMixInProperties: function(){
 			this.inherited(arguments);
 			this._set("type", "text"); // in case type="number" was specified which messes up parse/format
+
+			// Capture the decimal point character for this field
+			var locale = i18n.normalizeLocale(this.constraints.locale),
+				bundle = i18n.getLocalization("dojo.cldr", "number", locale);
+			this._decimal = bundle.decimal;
 		},
 
 		_setConstraintsAttr: function(/*Object*/ constraints){
@@ -288,10 +294,7 @@ define([
 			// http://stackoverflow.com/questions/12125421/why-does-a-shift-by-0-truncate-the-decimal
 			var integerDigits = curVal|0,
 				valNegative = curVal < 0,
-				// Capture the locale for this field
-				locale = i18n.normalizeLocale(this.constraints.locale),
-				bundle = i18n.getLocalization("dojo.cldr", "number", locale),
-				decimal = bundle.decimal,
+				decimal = this._decimal,
 				// Check if the current number has a decimal based on its locale
 				hasDecimal = this.textbox.value.indexOf(decimal) != -1,
 				// Determine the max digits based on the textbox length. If no length is
@@ -315,7 +318,8 @@ define([
 			//      min value = the current value with 9s appended for all remaining possible digits
 			//      max value = the current value
 			//
-			var ninePadding = string.rep("9", remainingDigitsCount),
+			var ninePadding = ninePaddingCache[remainingDigitsCount] ||
+				(ninePaddingCache[remainingDigitsCount] = string.rep("9", remainingDigitsCount)),
 				minPossibleValue = curVal,
 				maxPossibleValue = curVal;
 			if (valNegative){
